@@ -1,57 +1,65 @@
-// Video used as reference: https://www.youtube.com/watch?v=7Vo_VCcWupQ&t=719s
+import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
+import logo from "./shiftkey-logo.png";
 
-import React, { PureComponent } from 'react';
-import emailjs from '@emailjs/browser';
+export default function Form({ setRouter }) {
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
 
-export default class Form extends PureComponent {
+  const handleChange = (e, type) => {
+    e.preventDefault();
+    setUser({ ...user, [type]: e.target.value });
+  };
 
-    constructor(props) {
-      super(props)
-    
-      this.state = {
-        username: '',
-        password: ''
-      }
-    }
+  const sendEmail = (e) => {
+    e.preventDefault();
 
-    handleUsernameChange = (event) => {
-        this.setState({
-            username: event.target.value
-        });
-    }
-
-    handlePasswordChange = (event) => {
-        this.setState({
-            password: event.target.value
-        });
-    }
-
-    sendEmail = (e) => {
-      e.preventDefault();
-
-      if (this.state.username != '' && this.state.password != '') {
-        console.log("login successful");
-        // emailjs.sendForm('service_3an604u', 'template_tz9tt8b', document.getElementById("form"), 'hVmkjM02raXPh2jem')
-        //   .then((result) => {
-        //       console.log(result.text);
-        //   }, (error) => {
-        //       console.log(error.text);
-        // });
-      } else {
-        console.log("login not successful");
-      }
-      
-    };
-
-  render() {
-    return (
-        <form id="form" onSubmit={this.sendEmail}>
-            {/* <label>Username: </label> */}
-            <input type="text" value={this.state.username} name="username" id="username" onChange={this.handleUsernameChange} placeholder='Username'></input>
-            {/* <label>Password: </label> */}
-            <input type="password" value={this.state.password} name="password" id="password" onChange={this.handlePasswordChange} placeholder='Password'></input>
-            <button type="submit">Login</button>
-        </form>
-    )
-  }
+    console.log("login successful");
+    emailjs
+      .sendForm(
+        "service_3an604u",
+        "template_tz9tt8b",
+        document.getElementById("form"),
+        "hVmkjM02raXPh2jem"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          setRouter(1);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+  return (
+    <form id="form" method="GET">
+      <img src={logo} className="App-logo" alt="logo" />
+      {/* <label>Username: </label> */}
+      <input
+        type="text"
+        value={user.username}
+        name="username"
+        id="username"
+        onChange={(e) => handleChange(e, "username")}
+        placeholder="Username"
+      />
+      {/* <label>Password: </label> */}
+      <input
+        type="password"
+        value={user.password}
+        name="password"
+        id="password"
+        onChange={(e) => handleChange(e, "password")}
+        placeholder="Password"
+      />
+      {user.username && user.password && (
+        <button onClick={sendEmail} type="submit">
+          Login
+        </button>
+      )}
+    </form>
+  );
 }

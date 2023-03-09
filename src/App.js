@@ -1,13 +1,15 @@
-import logo from './shiftkey-logo.png';
-import './App.css';
-import Form from './Form';
+import { useState } from "react";
+import "./App.css";
+import Form from "./Form";
+import Activity from "./Activity";
 
 function App() {
+  const [router, setRouter] = useState(0);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Form/>      
+        {router < 1 ? <Form setRouter={setRouter} /> : <Activity />}
       </header>
     </div>
   );
