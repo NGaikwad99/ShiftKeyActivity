@@ -1,17 +1,27 @@
-import { useState } from "react";
-import "./App.css";
-import Form from "./Form";
-import Activity from "./Activity";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Start from './Start';
+import Form from './Form';
+import Final from './Final';
+import logo from "./shiftkey-logo.png";
+import './App.css'
 
 function App() {
-  const [router, setRouter] = useState(0);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        {router < 1 ? <Form setRouter={setRouter} /> : <Activity />}
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <div className='header'>
+        <img src={logo} className="App-logo" alt="logo" />
+        <h1>Digital Defense 101: Demo</h1>
+        </div>
+        
+        <Routes>
+          <Route path="/" element={<Start />} />
+          <Route path="/login" element={<Form />} />
+          <Route path="/final" element={<Final />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

